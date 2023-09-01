@@ -1,0 +1,4 @@
+get-- /api/user
+post-- /api/user
+patch-- /api/user/:id
+delete-- /api/user/:id
