@@ -9,9 +9,11 @@
     "axios": "^1.4.0",
     "date-fns": "^2.30.0",
     "react": "^18.2.0",
+    "react-data-table-component": "^7.5.4",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
+    "styled-components": "^6.0.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -39,6 +41,7 @@
     ]
   },
   "devDependencies": {
+    "datatables.net-bs4": "^1.13.6",
     "tailwindcss": "^3.3.3"
   }
 }

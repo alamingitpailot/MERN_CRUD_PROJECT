@@ -1,11 +1,13 @@
 
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 
 import EditModal from './Edit/EditModal';
 import DeleteModal from './Delete.js/DeleteModal';
 import { dateFormat } from '../utils/funtions';
+import DataTable from 'react-data-table-component';
+import FilterComponent from './FilterComponent';
 
 
 const ShowUser = () => {
@@ -13,6 +15,8 @@ const ShowUser = () => {
     const [openEditModal, setOpenEditModal] = useState(false);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const [filterText, setFilterText] = useState('');
+    const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
     useEffect(() => {
         axios.get('http://localhost:4000/api/users').then((res) => {
@@ -20,45 +24,91 @@ const ShowUser = () => {
         });
     }, []);
 
+    useEffect(() => {
+        userList.map((user, index) => {
+            user.serial = index + 1;
+        });
+    }, [userList]);
+
+    const columns = [
+
+        {
+            name: 'Sl.N',
+            selector: row => <div className='text-[15px] font-[400]'> {row.serial}</div>
+        },
+
+        {
+            name: 'User Id',
+            selector: row => <div className="text-[15px] font-[400]">{row.id}</div>,
+            sortable: true,
+        },
+
+        {
+            name: 'Name',
+            selector: row => <div className="text-[15px] font-[400]">{row.name}</div>,
+            sortable: true,
+        },
+        {
+            name: 'age',
+            selector: row => <div className="text-[15px] font-[400]">{row.age}</div>,
+            sortable: true,
+        },
+        {
+            name: 'created On',
+            selector: row => <div className="text-[15px] font-[400]">{dateFormat(row.createdOn)}</div>,
+            sortable: true
+        },
+
+        {
+            name: "Action",
+            cell: (row) => (
+                <div className=" p-2 flex align-center">
+                    <button className='px-4 py-2 bg-green-500 mr-4 rounded text-white' onClick={() => {
+                        setCurrentUser(row);
+                        setOpenEditModal(true);
+                    }}>Edit</button>
+                    <button className='px-4 py-2 bg-red-500 rounded text-white font-[500]' onClick={() => {
+                        setCurrentUser(row);
+                        setOpenDeleteModal(true);
+                    }}>Delete</button> </div>
+
+            )
+        }
+    ];
+    const tableHeaderstyle = {
+        headCells: {
+            style: {
+                fontWeight: "bold",
+                fontSize: "16px",
+                backgroundColor: "#000",
+                color: "#fff"
+            },
+        },
+    }
+
+
+    const filteredItems = userList.filter(
+        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()),
+    );
+
+    const subHeaderComponentMemo = useMemo(() => {
+        const handleClear = () => {
+            if (filterText) {
+                setResetPaginationToggle(!resetPaginationToggle);
+                setFilterText('');
+            }
+        };
+
+        return (
+            <FilterComponent onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+        );
+    }, [filterText, resetPaginationToggle]);
 
     return <div>
-        <table className="mt-20 w-5/6 m-auto border-collapse border border-slate-400 text-left rounded">
-            <thead>
-                <tr className='bg-current'>
-                    <th className="border border-slate-300 p-2 text-white">S Number</th>
-                    <th className="border border-slate-300 p-2 text-white">User Id</th>
-                    <th className="border border-slate-300 p-2 text-white">User Name</th>
-                    <th className="border border-slate-300 p-2 text-white">User Age</th>
-                    <th className="border border-slate-300 p-2 text-white">Created On</th>
-                    <th className="border border-slate-300 p-2 text-white">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                {userList?.map((user, index) => {
-
-                    return <tr key={index}>
-                        <td className="border border-slate-300 p-2">{index + 1}</td>
-                        <td className="border border-slate-300 p-2">{user?.id}</td>
-                        <td className="border border-slate-300 p-2">{user?.name}</td>
-                        <td className="border border-slate-300 p-2">{user?.age}</td>
-                        <td className="border border-slate-300 p-2">{dateFormat(user?.createdOn)}</td>
-                        <td className="border border-slate-300 p-2 flex align-center">
-
-                            <button className='px-4 py-2 bg-green-500 mr-4 rounded text-white' onClick={() => {
-                                setCurrentUser(user);
-                                setOpenEditModal(true);
-                            }}>Edit</button>
-
-                            <button className='px-4 py-2 bg-red-500 rounded text-white' onClick={() => {
-                                setCurrentUser(user);
-                                setOpenDeleteModal(true);
-                            }}>Delete</button>
-                        </td>
-                    </tr>
-                })}
-            </tbody>
-        </table>
+        <div className="mt-20 w-5/6 m-auto rounded">
+            <DataTable columns={columns} data={filteredItems} customStyles={tableHeaderstyle} pagination
+                paginationResetDefaultPage={resetPaginationToggle} subHeader subHeaderComponent={subHeaderComponentMemo} selectableRowspersistTableHead />
+        </div>
         {openEditModal && <div className={`ModalMainSection fixed left-0 top-0 w-[100%] h-[100%] bg-black flex items-center justify-center z-[1]`} onClick={(e) => {
 
             if (e.target.classList.contains('ModalMainSection')) {
