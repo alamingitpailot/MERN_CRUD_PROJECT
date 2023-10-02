@@ -4,7 +4,16 @@ const cors = require("cors");
 const userRouter = require('./routes/user.route');
 require("./config/db");
 
-app.use(cors());
+// app.use(cors());
+// new 
+const corsConfig = {
+    origin: '',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}
+app.use(cors(corsConfig))
+app.options("", cors(corsConfig))
+// new
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
