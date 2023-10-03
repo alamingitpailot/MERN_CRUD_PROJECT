@@ -7,7 +7,7 @@ const DeleteModal = ({ setOpenDeleteModal, userList, setUserList, currentUser })
 
     const onClickDelete = () => {
         setLoading(true);
-        axios.delete(`http://localhost:4000/api/users/${currentUser?.id}`).then((res) => {
+        axios.delete(`https://crudproject-eta.vercel.app/api/users/${currentUser?.id}`).then((res) => {
             setLoading(false);
             setOpenDeleteModal(false);
             setUserList(userList.filter(user => user.id !== currentUser.id));

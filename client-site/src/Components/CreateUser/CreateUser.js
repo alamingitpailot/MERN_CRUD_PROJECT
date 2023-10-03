@@ -28,7 +28,7 @@ const CreateUser = () => {
         }
 
         setLoading(true);
-        axios.post('http://localhost:4000/api/users', { name: createUser?.name, age: createUser?.age }).then((res) => {
+        axios.post('https://crudproject-eta.vercel.app/api/users', { name: createUser?.name, age: createUser?.age }).then((res) => {
             console.log(res);
             setLoading(false);
         })

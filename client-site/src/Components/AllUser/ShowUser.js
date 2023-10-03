@@ -1,5 +1,4 @@
 
-
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 
@@ -19,7 +18,7 @@ const ShowUser = () => {
     const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/api/users').then((res) => {
+        axios.get('https://crudproject-eta.vercel.app/api/users').then((res) => {
             setUserList(res?.data);
         });
     }, []);

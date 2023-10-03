@@ -30,7 +30,7 @@ const EditModal = ({ setOpenEditModal, userList, currentUser, setUserList }) => 
             return false;
         }
         setLoading(true);
-        axios.patch(`http://localhost:4000/api/users/${currentUser.id}`, { name: updateUser?.name, age: updateUser?.age }).then((res) => {
+        axios.patch(`https://crudproject-eta.vercel.app/api/users/${currentUser.id}`, { name: updateUser?.name, age: updateUser?.age }).then((res) => {
             setLoading(false);
             setOpenEditModal(false);
             setUserList(userList.map(user => user.id === currentUser.id ? { ...currentUser, name: updateUser.name, age: updateUser.age } : user))
