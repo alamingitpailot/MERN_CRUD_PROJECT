@@ -33,29 +33,41 @@ const ShowUser = () => {
 
         {
             name: 'Sl.N',
-            selector: row => <div className='text-[15px] font-[400]'> {row.serial}</div>
+            selector: row => <div className="text-[15px] font-[400]"> {row.serial}</div>,
         },
 
         {
             name: 'User Id',
-            selector: row => <div className="text-[15px] font-[400]">{row.id}</div>,
+            selector: row => row.id,
             sortable: true,
+            cell: (row) => (
+                <div className="text-[15px] font-[400]"> {row.id}</div>
+            )
         },
 
         {
             name: 'Name',
-            selector: row => <div className="text-[15px] font-[400]">{row.name}</div>,
+            selector: row => row.name,
             sortable: true,
+            cell: (row) => (
+                <div className="text-[15px] font-[400]"> {row.name}</div>
+            )
         },
         {
             name: 'age',
-            selector: row => <div className="text-[15px] font-[400]">{row.age}</div>,
+            selector: row => row.age,
             sortable: true,
+            cell: (row) => (
+                <div className="text-[15px] font-[400]"> {row.age}</div>
+            )
         },
         {
             name: 'created On',
-            selector: row => <div className="text-[15px] font-[400]">{dateFormat(row.createdOn)}</div>,
-            sortable: true
+            selector: row => dateFormat(row.createdOn),
+            sortable: true,
+            cell: (row) => (
+                <div className="text-[15px] font-[400]"> {row.name}</div>
+            )
         },
 
         {
@@ -74,6 +86,8 @@ const ShowUser = () => {
             )
         }
     ];
+
+
     const tableHeaderstyle = {
         headCells: {
             style: {
