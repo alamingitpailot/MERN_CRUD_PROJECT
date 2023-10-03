@@ -66,7 +66,7 @@ const ShowUser = () => {
             selector: row => dateFormat(row.createdOn),
             sortable: true,
             cell: (row) => (
-                <div className="text-[15px] font-[400]"> {row.name}</div>
+                <div className="text-[15px] font-[400]"> {dateFormat(row.createdOn)}</div>
             )
         },
 
