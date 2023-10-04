@@ -37,7 +37,7 @@ const DeleteModal = ({ setOpenDeleteModal, userList, setUserList, currentUser })
             </div>
 
             <h1 className='text-black text-[22px] text-center mt-[10px]'>Are you sure</h1>
-            <p> Are you sure you want to delete item Id</p>
+            <p> Are you sure you want to delete user</p>
             <div className="mt-[20px] flex items-center justify-center gap-[10px]">
                 <button className='bg-black text-white py-[6px] px-[14px] rounded-[2px]' onClick={() => setOpenDeleteModal(false)}>Cancel</button>
                 <button onClick={() => onClickDelete()} className={`bg-red-600 text-white py-[6px] px-[14px] rounded-[2px] ${loading && "bg-slate-400"}`}>Delete</button>
